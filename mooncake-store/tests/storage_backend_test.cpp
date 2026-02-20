@@ -1,4 +1,5 @@
 #include "storage_backend.h"
+#include "errsim.h"
 
 #include <glog/logging.h>
 #include <gtest/gtest.h>
@@ -24,22 +25,24 @@ class StorageBackendTest : public ::testing::Test {
    protected:
     std::string data_path;
 
-    // Helper function to test partial success behavior for any
-    // StorageBackendInterface. Uses deterministic failure injection on a batch
-    // of keys to ensure that some writes succeed and exactly one write fails,
-    // then verifies that results and stored data match.
-    static void TestPartialSuccessBehavior(StorageBackendInterface& backend,
-                                           const std::string& backend_name) {
-        // Set up test failure predicate: fail only "key2"
-        // This provides deterministic failure injection for testing partial
-        // success.
-        backend.SetTestFailurePredicate([](const std::string& key) {
-            return key == "key2";  // Fail only this key
-        });
+    // Uses string-based ErrsimPoint activation to inject failure only for
+    // "key2". The injection points are registered by name in the global
+    // ErrsimPoint registry (defined in storage_backend.cpp).
+    static void TestPartialSuccessBehavior(
+        StorageBackendInterface& backend, const std::string& backend_name,
+        const std::string& errsim_point_name) {
+        // Activate: fail only when key == "key2"
+        ErrsimPoint::activate(errsim_point_name, 1 /*non-zero = error*/,
+                              "key2");
+        // RAII-style reset when the function returns
+        struct Reset {
+            std::string name;
+            ~Reset() { ErrsimPoint::reset(name); }
+        } guard{errsim_point_name};
 
         // Create a batch with 3 keys:
         // - key1: should succeed
-        // - key2: should fail (test failure predicate)
+        // - key2: should fail (errsim)
         // - key3: should succeed
         std::unordered_map<std::string, std::vector<Slice>> batch;
         std::vector<std::unique_ptr<char[]>> buffers;
@@ -598,8 +601,8 @@ TEST_F(StorageBackendTest, AdaptorBatchOffload_PartialSuccess) {
     ASSERT_TRUE(scan_res);
 
     // Test partial success with deterministic failure injection
-    StorageBackendTest::TestPartialSuccessBehavior(adaptor,
-                                                   "StorageBackendAdaptor");
+    StorageBackendTest::TestPartialSuccessBehavior(
+        adaptor, "StorageBackendAdaptor", "EP_STORAGE_ADAPTOR_OFFLOAD");
 }
 
 //-----------------------------------------------------------------------------
@@ -1485,7 +1488,8 @@ TEST_F(StorageBackendTest, OffsetAllocatorStorageBackend_PartialSuccess) {
     ASSERT_TRUE(storage_backend.Init());
 
     StorageBackendTest::TestPartialSuccessBehavior(
-        storage_backend, "OffsetAllocatorStorageBackend");
+        storage_backend, "OffsetAllocatorStorageBackend",
+        "EP_STORAGE_OFFSET_OFFLOAD");
 }
 
 //-----------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 #include "storage_backend.h"
+#include "errsim.h"
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -14,6 +15,10 @@
 #include <algorithm>
 #include <chrono>
 #include <unordered_set>
+
+// Errsim injection points (debug-only, zero overhead in release builds)
+ERRSIM_POINT_DEF(EP_STORAGE_ADAPTOR_OFFLOAD);
+ERRSIM_POINT_DEF(EP_STORAGE_OFFSET_OFFLOAD);
 
 #include <ylt/struct_pb.hpp>
 
@@ -1019,14 +1024,8 @@ tl::expected<int64_t, ErrorCode> StorageBackendAdaptor::BatchOffload(
         KVEntry kv;
         kv.key = object.first;
         auto value = object.second;
-
-        // Test-only: Check if this key should fail (deterministic failure
-        // injection)
-        if (test_failure_predicate_ && test_failure_predicate_(kv.key)) {
-            LOG(INFO) << "[TEST] Injecting failure for key: " << kv.key
-                      << " (test failure predicate)";
-            continue;  // Simulate StoreObject failure
-        }
+        // Errsim: inject failure for this key if the point is active.
+        ERRSIM_INJECT(EP_STORAGE_ADAPTOR_OFFLOAD, kv.key, continue);
 
         auto path = ResolvePath(kv.key);
         kv.value = ConcatSlicesToString(value);
@@ -2325,13 +2324,8 @@ tl::expected<int64_t, ErrorCode> OffsetAllocatorStorageBackend::BatchOffload(
             continue;
         }
 
-        // Test-only: Check if this key should fail (deterministic failure
-        // injection)
-        if (test_failure_predicate_ && test_failure_predicate_(key)) {
-            LOG(INFO) << "[TEST] Injecting failure for key: " << key
-                      << " (test failure predicate)";
-            continue;  // Simulate allocation/write failure
-        }
+        // Errsim: inject failure for this key if the point is active.
+        ERRSIM_INJECT(EP_STORAGE_OFFSET_OFFLOAD, key, continue);
 
         // Calculate total value size
         uint32_t value_size = 0;
