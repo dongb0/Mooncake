@@ -15,7 +15,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <numa.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>

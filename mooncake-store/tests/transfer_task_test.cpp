@@ -1,7 +1,7 @@
 // transfer_task_test.cpp
 #include "transfer_task.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <chrono>
@@ -21,13 +21,12 @@ class TransferTaskTest : public ::testing::Test {
    protected:
     void SetUp() override {
         // Initialize glog for logging
-        google::InitGoogleLogging("TransferTaskTest");
-        FLAGS_logtostderr = 1;  // Output logs to stderr
+        mooncake::logging::InitMooncakeLogging("TransferTaskTest");
     }
 
     void TearDown() override {
         // Cleanup glog
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 };
 

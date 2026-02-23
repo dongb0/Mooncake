@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -73,8 +73,7 @@ class NVMeofTransportTest : public ::testing::Test {
    protected:
     void SetUp() override {
         static int offset = 0;
-        google::InitGoogleLogging("NVMeofTransportTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("NVMeofTransportTest");
         // disable topology auto discovery for testing.
         engine = std::make_unique<TransferEngine>(false);
         hostname_port = parseHostNameWithPort(FLAGS_local_server_name);
@@ -96,7 +95,7 @@ class NVMeofTransportTest : public ::testing::Test {
     }
 
     void TearDown() override {
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         engine->unregisterLocalMemory(addr);
         freeMemoryPool(addr, ram_buffer_size);
     }

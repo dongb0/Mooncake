@@ -2,7 +2,7 @@
 
 #include <fcntl.h>
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <signal.h>
 #include <sys/stat.h>
 #include <sys/wait.h>

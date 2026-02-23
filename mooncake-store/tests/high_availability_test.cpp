@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <cstdint>
@@ -22,11 +22,10 @@ class HighAvailabilityTest : public ::testing::Test {
 
     static void SetUpTestSuite() {
         // Initialize glog
-        google::InitGoogleLogging("HighAvailabilityTest");
+        mooncake::logging::InitMooncakeLogging("HighAvailabilityTest");
 
         // Set VLOG level to 1 for detailed logs
-        google::SetVLOGLevel("*", 1);
-        FLAGS_logtostderr = 1;
+        mooncake::logging::SetVerboseLevel(1);
 
         // Initialize etcd client
         ErrorCode err =
@@ -56,7 +55,7 @@ class HighAvailabilityTest : public ::testing::Test {
         }
     }
 
-    static void TearDownTestSuite() { google::ShutdownGoogleLogging(); }
+    static void TearDownTestSuite() { mooncake::logging::ShutdownMooncakeLogging(); }
 
     void SetUp() override {
         if (!etcd_available_) {

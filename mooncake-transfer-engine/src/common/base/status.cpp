@@ -20,7 +20,7 @@
 
 #include <cstring>
 
-#include "glog/logging.h"
+#include "logging.h"
 
 namespace mooncake {
 

@@ -18,7 +18,7 @@
 
 #include "tent/rpc/rpc.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "tent/common/utils/ip.h"
 #include "tent/common/utils/random.h"

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gtest/gtest.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <acl/acl.h>
 #include <adxl/adxl_engine.h>
@@ -334,13 +334,12 @@ class AscendDirectTransportTest : public ::testing::Test {
                                        ACL_MEM_LOCATION_TYPE_HOST, 0);
 
         // 初始化glog并设置日志输出到stderr，确保在docker中能看到日志
-        google::InitGoogleLogging("AscendDirectTransportTest");
+        mooncake::logging::InitMooncakeLogging("AscendDirectTransportTest");
         FLAGS_minloglevel = 0;       // INFO级别
-        FLAGS_logtostderr = 1;       // 输出到stderr而不是文件
         FLAGS_colorlogtostderr = 1;  // 启用颜色输出
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 
     std::unique_ptr<AscendDirectTransport> createTransport() {
         auto transport = std::make_unique<AscendDirectTransport>();

@@ -212,17 +212,16 @@ void loadGlobalConfig(GlobalConfig &config) {
     config.trace = false;
     if (log_level) {
         if (strcmp(log_level, "TRACE") == 0) {
-            config.log_level = google::INFO;
+            config.log_level = INFO;
             config.trace = true;
         }
         if (strcmp(log_level, "INFO") == 0)
-            config.log_level = google::INFO;
+            config.log_level = INFO;
         else if (strcmp(log_level, "WARNING") == 0)
-            config.log_level = google::WARNING;
+            config.log_level = WARNING;
         else if (strcmp(log_level, "ERROR") == 0)
-            config.log_level = google::ERROR;
+            config.log_level = ERROR;
     }
-    FLAGS_minloglevel = config.log_level;
 
     const char *slice_timeout_env = std::getenv("MC_SLICE_TIMEOUT");
     if (slice_timeout_env) {
@@ -235,22 +234,36 @@ void loadGlobalConfig(GlobalConfig &config) {
     }
 
     const char *log_dir_path = std::getenv("MC_LOG_DIR");
-    if (log_dir_path) {
-        google::InitGoogleLogging("mooncake-transfer-engine");
-        if (opendir(log_dir_path) == NULL) {
-            LOG(WARNING)
-                << "Path [" << log_dir_path
-                << "] is not a valid directory path. Still logging to stderr.";
-        } else if (access(log_dir_path, W_OK) != 0) {
-            LOG(WARNING)
-                << "Path [" << log_dir_path
-                << "] is not a permitted directory path for the current user. \
-                Still logging to stderr.";
-        } else {
-            FLAGS_log_dir = log_dir_path;
-            FLAGS_logtostderr = 0;
-            FLAGS_stop_logging_if_full_disk = true;
+    {
+        mooncake::logging::LoggingConfig log_config;
+        if (log_dir_path) {
+            if (opendir(log_dir_path) == NULL) {
+                LOG(WARNING)
+                    << "Path [" << log_dir_path
+                    << "] is not a valid directory path. Still logging to stderr.";
+            } else if (access(log_dir_path, W_OK) != 0) {
+                LOG(WARNING)
+                    << "Path [" << log_dir_path
+                    << "] is not a permitted directory path for the current user. \
+                    Still logging to stderr.";
+            } else {
+                log_config.log_dir = log_dir_path;
+                log_config.log_to_stderr = false;
+            }
         }
+        // Map log level to spdlog level
+        switch (config.log_level) {
+            case WARNING:
+                log_config.min_level = spdlog::level::warn;
+                break;
+            case ERROR:
+                log_config.min_level = spdlog::level::err;
+                break;
+            default:
+                log_config.min_level = spdlog::level::info;
+                break;
+        }
+        mooncake::logging::InitMooncakeLogging("mooncake-transfer-engine", log_config);
     }
 
     const char *min_port_env = std::getenv("MC_MIN_PRC_PORT");

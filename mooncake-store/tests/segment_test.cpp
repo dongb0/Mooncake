@@ -1,6 +1,6 @@
 #include "segment.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <boost/functional/hash.hpp>
@@ -12,13 +12,12 @@ class SegmentTest : public ::testing::Test {
    protected:
     void SetUp() override {
         // Initialize glog for logging
-        google::InitGoogleLogging("EvictionStrategyTest");
-        FLAGS_logtostderr = 1;  // Output logs to stderr
+        mooncake::logging::InitMooncakeLogging("EvictionStrategyTest");
     }
 
     void TearDown() override {
         // Cleanup glog
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 
     void ValidateMountedSegments(const SegmentManager& segment_manager,

@@ -50,7 +50,7 @@ if(SCCACHE AND ENABLE_SCCACHE)
   set(CMAKE_CXX_COMPILER_LAUNCHER ${SCCACHE})
 endif()
 
-add_compile_definitions(GLOG_USE_GLOG_EXPORT)
+# glog removed — using spdlog via mooncake-common/logging.h
 add_compile_options(-fno-tree-slp-vectorize)
 
 option(BUILD_EXAMPLES "Build examples" ON)

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -41,8 +41,7 @@ class RDMALoopbackTest : public ::testing::Test {
 
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("RDMALoopbackTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("RDMALoopbackTest");
         engine = std::make_unique<TransferEngine>(true);
         engine->init(FLAGS_metadata_server, "test_node");
         addr = numa_alloc_onnode(ram_buffer_size, 0);
@@ -51,7 +50,7 @@ class RDMALoopbackTest : public ::testing::Test {
     }
 
     void TearDown() override {
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         engine->unregisterLocalMemory(addr);
         numa_free(addr, ram_buffer_size);
     }

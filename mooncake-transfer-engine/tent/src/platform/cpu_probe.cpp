@@ -16,7 +16,7 @@
 #include "tent/common/status.h"
 #include "tent/common/utils/random.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <fstream>
 #include <iostream>
 #include <map>

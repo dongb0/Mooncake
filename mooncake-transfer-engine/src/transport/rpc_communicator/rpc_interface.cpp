@@ -5,7 +5,7 @@
 #include <thread>
 #include <future>
 #include <vector>
-#include <glog/logging.h>
+#include "logging.h"
 #include "async_simple/coro/SyncAwait.h"
 
 namespace mooncake {

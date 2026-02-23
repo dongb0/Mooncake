@@ -49,7 +49,7 @@ target_link_libraries(
          transport
          rdma_transport
          ibverbs
-         glog::glog
+         spdlog::spdlog
          gflags::gflags
          pthread
          JsonCpp::JsonCpp

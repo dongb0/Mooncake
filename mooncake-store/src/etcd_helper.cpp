@@ -4,7 +4,7 @@
 #include "libetcd_wrapper.h"
 #endif
 
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 

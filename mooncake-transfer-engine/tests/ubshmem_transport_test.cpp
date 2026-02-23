@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <thread>
 #include <memory>
@@ -374,8 +374,7 @@ TEST(UBShmemTransportTest, WriteAndReadCrossNPUIPC) {
 
 int main(int argc, char** argv) {
     gflags::ParseCommandLineFlags(&argc, &argv, false);
-    google::InitGoogleLogging("UBShmemTransportTest");
-    FLAGS_logtostderr = 1;
+    mooncake::logging::InitMooncakeLogging("UBShmemTransportTest");
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

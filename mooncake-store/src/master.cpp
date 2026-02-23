@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <chrono>  // For std::chrono
 #include <csignal>
@@ -493,7 +493,7 @@ int main(int argc, char* argv[]) {
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     if (!FLAGS_log_dir.empty()) {
-        google::InitGoogleLogging(argv[0]);
+        mooncake::logging::InitMooncakeLogging(argv[0]);
     }
 
     // Initialize the master configuration

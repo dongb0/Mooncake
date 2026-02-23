@@ -17,7 +17,7 @@
 #include "tent/common/utils/random.h"
 
 #include <acl/acl.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <fstream>
 #include <iostream>
 #include <map>

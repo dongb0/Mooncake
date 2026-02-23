@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -47,8 +47,7 @@ static void freeMemoryPool(void *addr, size_t size) { numa_free(addr, size); }
 class EFATransportTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("EFATransportTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("EFATransportTest");
 
         const char *env = std::getenv("MC_METADATA_SERVER");
         metadata_server_ = env ? env : "P2PHANDSHAKE";
@@ -59,7 +58,7 @@ class EFATransportTest : public ::testing::Test {
         LOG(INFO) << "local_server_name: " << local_server_name_;
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 
     // Helper: create engine, install EFA transport, register memory
     struct EngineSetup {

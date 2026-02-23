@@ -14,7 +14,7 @@
 
 #include "transport/barex_transport/barex_transport.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <sys/mman.h>
 #include <sys/time.h>
 

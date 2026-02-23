@@ -22,7 +22,7 @@
 //   --device_name=erdma_1
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <sys/time.h>
 
 #include <cstdlib>

@@ -5,7 +5,7 @@
 #include "test_server_helpers.h"
 #include "utils.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <atomic>
@@ -83,8 +83,7 @@ std::string getLocalIpAddress() {
 class LocalHotCacheTest : public ::testing::Test {
    protected:
     static void SetUpTestSuite() {
-        google::InitGoogleLogging("LocalHotCacheTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("LocalHotCacheTest");
 
         // Start in-proc master and metadata servers (non-HA)
         ASSERT_TRUE(master_.Start(InProcMasterConfigBuilder().build()))
@@ -98,7 +97,7 @@ class LocalHotCacheTest : public ::testing::Test {
 
     static void TearDownTestSuite() {
         master_.Stop();
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 
     void SetUp() override {}

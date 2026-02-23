@@ -23,7 +23,7 @@
 #include "tent/metastore/http.h"
 #endif
 
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 namespace tent {

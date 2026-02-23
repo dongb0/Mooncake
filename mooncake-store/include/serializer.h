@@ -4,7 +4,7 @@
 #include <string>
 #include <cstring>
 #include <cstdint>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "types.h"
 

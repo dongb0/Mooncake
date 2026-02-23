@@ -14,7 +14,7 @@
 
 #include "tent/metrics/config_loader.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cstdlib>
 

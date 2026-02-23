@@ -1,5 +1,5 @@
 // buffer_allocator_test.cpp
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <cstddef>
@@ -19,13 +19,12 @@ class BufferAllocatorTest : public ::testing::Test {
    protected:
     void SetUp() override {
         // Initialize glog for logging
-        google::InitGoogleLogging("BufferAllocatorTest");
-        FLAGS_logtostderr = 1;  // Output logs to stderr
+        mooncake::logging::InitMooncakeLogging("BufferAllocatorTest");
     }
 
     void TearDown() override {
         // Cleanup glog
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 
     // Helper function to create a BufferAllocator for testing
@@ -194,11 +193,10 @@ TEST_F(BufferAllocatorTest, ParallelAllocation) {
 class SimpleAllocatorTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("SimpleAllocatorTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("SimpleAllocatorTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 // Test basic memory allocation and deallocation

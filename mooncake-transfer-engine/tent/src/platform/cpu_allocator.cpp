@@ -16,7 +16,7 @@
 #include "tent/runtime/topology.h"
 
 #include <numa.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 namespace tent {

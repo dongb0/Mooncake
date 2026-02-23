@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <numa.h>
 
 #include <algorithm>
@@ -345,8 +345,7 @@ void print_results(const std::vector<ThreadStats>& thread_stats,
 int main(int argc, char** argv) {
     // Initialize gflags and glog
     gflags::ParseCommandLineFlags(&argc, &argv, true);
-    google::InitGoogleLogging(argv[0]);
-    FLAGS_logtostderr = 1;
+    mooncake::logging::InitMooncakeLogging(argv[0]);
 
     using namespace mooncake::benchmark;
 
@@ -407,7 +406,7 @@ int main(int argc, char** argv) {
     // Cleanup
     cleanup_segment();
     cleanup_client();
-    google::ShutdownGoogleLogging();
+    mooncake::logging::ShutdownMooncakeLogging();
 
     LOG(INFO) << "Benchmark completed successfully";
     return 0;

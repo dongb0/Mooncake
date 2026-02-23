@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -32,11 +32,10 @@ namespace mooncake {
 class TransportTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("TransportTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("TransportTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 static int CreateTempFile() {

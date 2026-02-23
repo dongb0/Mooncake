@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -76,8 +76,7 @@ class CXLTransportTest : public ::testing::Test {
    protected:
     void SetUp() override {
         static int offset = 0;
-        google::InitGoogleLogging("CXLTransportTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("CXLTransportTest");
 
         tmp_fd = open(FLAGS_device_name.c_str(), O_RDWR | O_CREAT, 0666);
         ASSERT_GE(tmp_fd, 0);
@@ -118,7 +117,7 @@ class CXLTransportTest : public ::testing::Test {
             unlink(FLAGS_device_name.c_str());
         }
         free(args);
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         freeMemoryPool(addr, kDataLength);
     }
 };

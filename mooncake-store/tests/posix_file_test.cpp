@@ -1,4 +1,4 @@
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -10,8 +10,7 @@ namespace mooncake {
 class PosixFileTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("PosixFileTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("PosixFileTest");
 
         // Create and open a test file
         test_filename = "test_file.txt";
@@ -20,7 +19,7 @@ class PosixFileTest : public ::testing::Test {
     }
 
     void TearDown() override {
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         if (test_fd >= 0) {
             close(test_fd);
         }

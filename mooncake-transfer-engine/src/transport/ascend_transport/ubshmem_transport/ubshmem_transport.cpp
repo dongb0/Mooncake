@@ -15,7 +15,7 @@
 
 #include "transport/ascend_transport/ubshmem_transport/ubshmem_transport.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cassert>
 #include <cstddef>

@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <cstdint>
@@ -109,9 +109,8 @@ class ClientIntegrationTestCxl : public ::testing::Test {
 
     static void SetUpTestSuite() {
         // Initialize glog
-        google::InitGoogleLogging("ClientIntegrationTestCxl");
+        mooncake::logging::InitMooncakeLogging("ClientIntegrationTestCxl");
 
-        FLAGS_logtostderr = 1;
 
         tmp_fd = open(FLAGS_cxl_device_name.c_str(), O_RDWR | O_CREAT, 0666);
         ASSERT_GE(tmp_fd, 0);
@@ -148,7 +147,7 @@ class ClientIntegrationTestCxl : public ::testing::Test {
         CleanupSegment();
         CleanupClients();
         master_.Stop();
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         if (tmp_fd >= 0) {
             close(tmp_fd);
             unlink(FLAGS_cxl_device_name.c_str());

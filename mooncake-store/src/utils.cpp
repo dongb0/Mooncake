@@ -1,7 +1,7 @@
 #include "utils.h"
 
 #include <Slab.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>

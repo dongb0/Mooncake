@@ -14,7 +14,7 @@
 
 #include "transport/efa_transport/efa_endpoint.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cassert>
 #include <cstddef>

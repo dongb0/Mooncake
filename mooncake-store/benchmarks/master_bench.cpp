@@ -22,7 +22,7 @@
 #include <vector>
 
 #include "gflags/gflags.h"
-#include "glog/logging.h"
+#include "logging.h"
 
 #include "master_client.h"
 
@@ -365,8 +365,7 @@ int main(int argc, char** argv) {
     std::jthread ping_thread;
     std::vector<std::unique_ptr<BenchClient>> bench_clients;
 
-    google::InitGoogleLogging("MasterBench");
-    FLAGS_logtostderr = true;
+    mooncake::logging::InitMooncakeLogging("MasterBench");
 
     gflags::ParseCommandLineFlags(&argc, &argv, false);
 
@@ -527,7 +526,7 @@ int main(int argc, char** argv) {
     std::cout << "Operations per second: " << std::fixed << std::setprecision(2)
               << num_completed_operations / (double)FLAGS_duration << "\n";
 
-    google::ShutdownGoogleLogging();
+    mooncake::logging::ShutdownMooncakeLogging();
 
     return 0;
 }

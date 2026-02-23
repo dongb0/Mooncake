@@ -54,13 +54,13 @@ if (WITH_TE)
         target_link_libraries(engine PUBLIC
             ascendcl
             transfer_engine
-            glog::glog
+            spdlog::spdlog
             gflags::gflags
         )
     else()
         target_link_libraries(engine PUBLIC
             transfer_engine
-            glog::glog
+            spdlog::spdlog
             gflags::gflags
         )
     endif()
@@ -103,7 +103,7 @@ if (WITH_STORE)
         target_link_libraries(store PUBLIC
             ascendcl
             transfer_engine
-            glog::glog
+            spdlog::spdlog
             gflags::gflags
             mooncake_store
             cachelib_memory_allocator
@@ -111,7 +111,7 @@ if (WITH_STORE)
     else()
         target_link_libraries(store PUBLIC
             transfer_engine
-            glog::glog
+            spdlog::spdlog
             gflags::gflags
             mooncake_store
             cachelib_memory_allocator

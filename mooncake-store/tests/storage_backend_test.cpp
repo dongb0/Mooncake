@@ -1,6 +1,6 @@
 #include "storage_backend.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <filesystem>
@@ -102,8 +102,7 @@ class StorageBackendTest : public ::testing::Test {
     }
 
     void SetUp() override {
-        google::InitGoogleLogging("StorageBackendTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("StorageBackendTest");
         data_path = std::filesystem::current_path().string() + "/data";
         // Remove all leftover files and subdirectories from previous runs
         if (fs::exists(data_path)) {
@@ -128,7 +127,7 @@ class StorageBackendTest : public ::testing::Test {
     }
 
     void TearDown() override {
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         LOG(INFO) << "Clear test data...";
         // Clean up all test files and subdirectories
         if (fs::exists(data_path)) {

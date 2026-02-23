@@ -15,7 +15,7 @@
 
 #include "transport/ascend_transport/ascend_direct_transport/ascend_direct_transport.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cassert>
 #include <cstddef>

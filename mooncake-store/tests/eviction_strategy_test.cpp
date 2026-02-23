@@ -1,5 +1,5 @@
 // eviction_strategy_test.cpp
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <memory>
@@ -13,13 +13,12 @@ class EvictionStrategyTest : public ::testing::Test {
    protected:
     void SetUp() override {
         // Initialize glog for logging
-        google::InitGoogleLogging("EvictionStrategyTest");
-        FLAGS_logtostderr = 1;  // Output logs to stderr
+        mooncake::logging::InitMooncakeLogging("EvictionStrategyTest");
     }
 
     void TearDown() override {
         // Cleanup glog
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 };
 

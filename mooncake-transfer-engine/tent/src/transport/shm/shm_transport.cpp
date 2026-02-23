@@ -15,7 +15,7 @@
 #include "tent/transport/shm/shm_transport.h"
 
 #include <bits/stdint-uintn.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <sys/mman.h>
 
 #include <algorithm>

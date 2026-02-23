@@ -1,6 +1,6 @@
 #include "transfer_task.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <algorithm>
 #include <cstdlib>

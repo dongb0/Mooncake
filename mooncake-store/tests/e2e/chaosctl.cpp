@@ -1,4 +1,4 @@
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <chrono>
 #include <fstream>
@@ -144,7 +144,7 @@ void generate_testing_report(int master_num, int client_num,
 
 int main(int argc, char* argv[]) {
     // Initialize logging
-    google::InitGoogleLogging(argv[0]);
+    mooncake::logging::InitMooncakeLogging(argv[0]);
 
     // Set log level to INFO
     google::SetStderrLogging(google::INFO);

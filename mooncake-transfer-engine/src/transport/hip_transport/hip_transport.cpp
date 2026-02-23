@@ -14,7 +14,7 @@
 
 #include "transport/hip_transport/hip_transport.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cassert>
 #include <cstddef>

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <atomic>
 #include <chrono>
 #include <mutex>
@@ -11,11 +11,10 @@ namespace mooncake {
 class ThreadPoolTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("ThreadPoolTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("ThreadPoolTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 // Test basic task execution

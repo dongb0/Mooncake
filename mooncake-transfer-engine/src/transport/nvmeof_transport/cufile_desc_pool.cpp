@@ -14,7 +14,7 @@
 
 #include "transport/nvmeof_transport/cufile_desc_pool.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cstddef>
 #include <mutex>

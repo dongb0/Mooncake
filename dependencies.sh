@@ -107,7 +107,7 @@ SYSTEM_PACKAGES="build-essential \
                   wget \
                   unzip \
                   libibverbs-dev \
-                  libgoogle-glog-dev \
+                  libspdlog-dev \
                   libgtest-dev \
                   libjsoncpp-dev \
                   libunwind-dev \

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <functional>
-#include <glog/logging.h>
+#include "logging.h"
 #include <ylt/coro_rpc/coro_rpc_client.hpp>
 #include <ylt/coro_rpc/coro_rpc_server.hpp>
 #include <ylt/coro_io/client_pool.hpp>

@@ -8,7 +8,7 @@ target_link_libraries(rpc_communicator
     PRIVATE 
     JsonCpp::JsonCpp 
     yalantinglibs::yalantinglibs 
-    glog::glog 
+    spdlog::spdlog 
     pthread 
     ${Python3_LIBRARIES}
 )

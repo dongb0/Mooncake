@@ -1,6 +1,6 @@
 #include "client_service.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <csignal>
 #include <algorithm>

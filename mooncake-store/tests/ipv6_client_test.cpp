@@ -15,7 +15,7 @@
  */
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <memory>
@@ -40,11 +40,10 @@ namespace testing {
 class IPv6ParsingTest : public ::testing::Test {
    protected:
     static void SetUpTestSuite() {
-        google::InitGoogleLogging("IPv6ParsingTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("IPv6ParsingTest");
     }
 
-    static void TearDownTestSuite() { google::ShutdownGoogleLogging(); }
+    static void TearDownTestSuite() { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 // Test isValidIpV6 function with various IPv6 address formats
@@ -179,11 +178,10 @@ TEST_F(IPv6ParsingTest, IPv6AddressFormatVariations) {
 class IPv6ClientTest : public ::testing::Test {
    protected:
     static void SetUpTestSuite() {
-        google::InitGoogleLogging("IPv6ClientTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("IPv6ClientTest");
     }
 
-    static void TearDownTestSuite() { google::ShutdownGoogleLogging(); }
+    static void TearDownTestSuite() { mooncake::logging::ShutdownMooncakeLogging(); }
 
     void SetUp() override {
         // Override flags from environment variables if present

@@ -14,7 +14,7 @@
 
 #include "transport/rdma_transport/rdma_endpoint.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cassert>
 #include <cstddef>

@@ -1,4 +1,4 @@
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <filesystem>
@@ -21,8 +21,7 @@ class FileStorageTest : public ::testing::Test {
    protected:
     std::string data_path;
     void SetUp() override {
-        google::InitGoogleLogging("FileStorageTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("FileStorageTest");
         UnsetEnv("MOONCAKE_OFFLOAD_FILE_STORAGE_PATH");
         UnsetEnv("MOONCAKE_OFFLOAD_LOCAL_BUFFER_SIZE_BYTES");
         UnsetEnv("MOONCAKE_OFFLOAD_BUCKET_ITERATOR_KEYS_LIMIT");
@@ -90,7 +89,7 @@ class FileStorageTest : public ::testing::Test {
     }
 
     void TearDown() override {
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         LOG(INFO) << "Clear test data...";
         for (const auto& entry : fs::directory_iterator(data_path)) {
             if (entry.is_regular_file()) {

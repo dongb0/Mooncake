@@ -14,7 +14,7 @@
 
 #include "tent/metastore/redis.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <memory>
 
 namespace mooncake {

@@ -1,6 +1,6 @@
 #include "client_metric.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <algorithm>
 #include <cctype>
 #include <chrono>

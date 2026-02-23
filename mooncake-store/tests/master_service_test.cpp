@@ -1,6 +1,6 @@
 #include "master_service.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <atomic>
@@ -18,8 +18,7 @@ namespace mooncake::test {
 class MasterServiceTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("MasterServiceTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("MasterServiceTest");
     }
 
     struct MountedSegmentContext {
@@ -55,7 +54,7 @@ class MasterServiceTest : public ::testing::Test {
 
     std::vector<Replica::Descriptor> replica_list;
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 std::string GenerateKeyForSegment(const UUID& client_id,

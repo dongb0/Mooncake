@@ -15,7 +15,7 @@
 #ifndef SEGMENT_H
 #define SEGMENT_H
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <netdb.h>
 
 #include <atomic>

@@ -15,7 +15,7 @@
 #include "transfer_metadata.h"
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -31,8 +31,7 @@ class TransferMetadataTest : public ::testing::Test {
    protected:
     void SetUp() override {
         // initialize glog
-        google::InitGoogleLogging("TransferMetadataTest");
-        FLAGS_logtostderr = 1;  // output to stdout
+        mooncake::logging::InitMooncakeLogging("TransferMetadataTest");
 
         const char* env = std::getenv("MC_METADATA_SERVER");
         if (env)
@@ -52,7 +51,7 @@ class TransferMetadataTest : public ::testing::Test {
     }
     void TearDown() override {
         // clean up glog
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
     std::unique_ptr<TransferMetadata> metadata_client;
     std::string metadata_server;

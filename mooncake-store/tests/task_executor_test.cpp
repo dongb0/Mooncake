@@ -3,7 +3,7 @@
 #include "task_manager.h"
 #include "rpc_types.h"
 #include "gtest/gtest.h"
-#include "glog/logging.h"
+#include "logging.h"
 #include <ylt/struct_json/json_writer.h>
 #include <ylt/struct_json/json_reader.h>
 #include <memory>
@@ -25,11 +25,10 @@ namespace mooncake {
 class TaskExecutorTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("TaskExecutorTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("TaskExecutorTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 
     // Helper to create a valid memory replica descriptor
     Replica::Descriptor CreateMemoryReplicaDescriptor(

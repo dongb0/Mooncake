@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <memory>
@@ -32,11 +32,10 @@ class GLogMuter {
 class RealClientTest : public ::testing::Test {
    protected:
     static void SetUpTestSuite() {
-        google::InitGoogleLogging("RealClientTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("RealClientTest");
     }
 
-    static void TearDownTestSuite() { google::ShutdownGoogleLogging(); }
+    static void TearDownTestSuite() { mooncake::logging::ShutdownMooncakeLogging(); }
 
     void SetUp() override {
         // Override flags from environment variables if present

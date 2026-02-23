@@ -20,7 +20,7 @@
 #include <cmath>
 #include <sstream>
 #include <iomanip>
-#include <glog/logging.h>
+#include "logging.h"
 #include <vector>
 #include <algorithm>
 #include <numeric>

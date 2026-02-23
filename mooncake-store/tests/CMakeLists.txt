@@ -5,7 +5,7 @@ function(add_store_test name)
         transfer_engine
         cachelib_memory_allocator
         ${ETCD_WRAPPER_LIB}
-        glog
+        spdlog::spdlog
         ibverbs
         gtest
         gtest_main
@@ -44,7 +44,7 @@ add_store_test(task_integration_test task_integration_test.cpp)
 add_subdirectory(e2e)
 
 add_executable(high_availability_test high_availability_test.cpp)
-target_link_libraries(high_availability_test PUBLIC mooncake_store transfer_engine cachelib_memory_allocator ${ETCD_WRAPPER_LIB} glog gtest gtest_main pthread)
+target_link_libraries(high_availability_test PUBLIC mooncake_store transfer_engine cachelib_memory_allocator ${ETCD_WRAPPER_LIB} spdlog::spdlog gtest gtest_main pthread)
 if (STORE_USE_ETCD)
     add_test(NAME high_availability_test COMMAND high_availability_test)
 endif()
@@ -56,7 +56,7 @@ target_link_libraries(stress_workload_test PUBLIC
     cachelib_memory_allocator
     ${ETCD_WRAPPER_LIB}
     mooncake_common
-    glog
+    spdlog::spdlog
     gflags
     pthread
 )

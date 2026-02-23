@@ -52,7 +52,7 @@ target_link_libraries(mooncake_store
     PUBLIC
         cachelib_memory_allocator
         ${ETCD_WRAPPER_LIB}
-        glog::glog
+        spdlog::spdlog
         gflags::gflags
         ${EXTRA_LIBS}
         asio_shared

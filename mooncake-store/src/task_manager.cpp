@@ -1,5 +1,5 @@
 #include "task_manager.h"
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 

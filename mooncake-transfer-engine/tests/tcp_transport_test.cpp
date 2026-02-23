@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -55,8 +55,7 @@ class TCPTransportTest : public ::testing::Test {
    public:
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("TCPTransportTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("TCPTransportTest");
 
         const char *env = std::getenv("MC_METADATA_SERVER");
         if (env)
@@ -75,7 +74,7 @@ class TCPTransportTest : public ::testing::Test {
 
     void TearDown() override {
         // 清理 glog
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 
     std::string metadata_server;

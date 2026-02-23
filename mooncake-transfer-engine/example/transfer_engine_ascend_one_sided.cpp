@@ -14,7 +14,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <sys/time.h>
 #include <signal.h>
 #include <cmath>

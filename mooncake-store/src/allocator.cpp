@@ -1,7 +1,7 @@
 // buffer_allocator.cpp
 #include "allocator.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <memory>
 

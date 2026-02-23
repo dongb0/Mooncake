@@ -18,7 +18,7 @@
 #include <bits/stdint-uintn.h>
 #include <cuda_runtime.h>
 #include <numa.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 namespace tent {

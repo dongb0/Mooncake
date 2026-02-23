@@ -1,6 +1,6 @@
 #include "mutex.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <thread>
@@ -13,10 +13,9 @@ namespace mooncake::test {
 class SharedMutexTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("SharedMutexTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("SharedMutexTest");
     }
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 TEST(SharedMutexTest, CanLockExclusive) {
@@ -176,10 +175,9 @@ TEST(SharedMutexTest, HandlesNullptrSafely) {
 class SpinLockTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("SpinLockTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("SpinLockTest");
     }
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 TEST(SpinLockTest, LockUnlockTest) {

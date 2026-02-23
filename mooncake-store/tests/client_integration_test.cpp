@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <cstdint>
@@ -101,9 +101,8 @@ class ClientIntegrationTest : public ::testing::Test {
 
     static void SetUpTestSuite() {
         // Initialize glog
-        google::InitGoogleLogging("ClientIntegrationTest");
+        mooncake::logging::InitMooncakeLogging("ClientIntegrationTest");
 
-        FLAGS_logtostderr = 1;
 
         // Override flags from environment variables if present
         if (getenv("PROTOCOL")) FLAGS_protocol = getenv("PROTOCOL");
@@ -134,7 +133,7 @@ class ClientIntegrationTest : public ::testing::Test {
         CleanupSegment();
         CleanupClients();
         master_.Stop();
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 
     static void InitializeSegment() {

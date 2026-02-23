@@ -18,7 +18,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <string>
-#include <glog/logging.h>
+#include "logging.h"
 
 struct cuda_plugin_ctx_t {
     // reserved

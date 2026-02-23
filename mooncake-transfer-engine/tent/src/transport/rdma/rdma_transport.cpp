@@ -15,7 +15,7 @@
 #include "tent/transport/rdma/rdma_transport.h"
 #include "tent/transport/rdma/ibv_loader.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <sys/mman.h>
 #include <sys/time.h>
 

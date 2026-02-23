@@ -14,7 +14,7 @@
 
 #include "tent/metrics/tent_metrics.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <tent/thirdparty/nlohmann/json.h>
 #include <sstream>
 #include <iomanip>

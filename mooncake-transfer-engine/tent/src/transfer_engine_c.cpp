@@ -14,7 +14,7 @@
 
 #include "tent/transfer_engine.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "tent/runtime/transfer_engine_impl.h"
 

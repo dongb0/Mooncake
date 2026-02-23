@@ -22,7 +22,7 @@
 #include <random>
 
 #include <bits/stdint-uintn.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "tent/common/status.h"
 #include "tent/runtime/slab.h"

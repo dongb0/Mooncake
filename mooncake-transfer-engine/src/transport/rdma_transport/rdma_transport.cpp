@@ -14,7 +14,7 @@
 
 #include "transport/rdma_transport/rdma_transport.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <sys/mman.h>
 #include <sys/time.h>
 

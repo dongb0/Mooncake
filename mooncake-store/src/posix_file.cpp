@@ -2,7 +2,7 @@
 #include <string>
 #include <sys/uio.h>
 #include <unistd.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "file_interface.h"
 

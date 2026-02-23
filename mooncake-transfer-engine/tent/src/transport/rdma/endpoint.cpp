@@ -14,7 +14,7 @@
 
 #include "tent/transport/rdma/endpoint.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <cassert>
 #include <cstddef>

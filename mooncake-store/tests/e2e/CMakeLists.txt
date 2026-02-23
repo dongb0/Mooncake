@@ -8,7 +8,7 @@ target_link_libraries(clientctl PUBLIC
     mooncake_store
     transfer_engine
     cachelib_memory_allocator
-    glog
+    spdlog::spdlog
     pthread
     ${ETCD_WRAPPER_LIB}
 )
@@ -18,7 +18,7 @@ target_link_libraries(e2e_rand_test PUBLIC
     mooncake_store
     transfer_engine
     cachelib_memory_allocator
-    glog
+    spdlog::spdlog
     gtest
     pthread
     ${ETCD_WRAPPER_LIB}
@@ -29,7 +29,7 @@ target_link_libraries(chaosctl PUBLIC
     mooncake_store
     transfer_engine
     cachelib_memory_allocator
-    glog
+    spdlog::spdlog
     pthread
     ${ETCD_WRAPPER_LIB}
 )
@@ -39,7 +39,7 @@ target_link_libraries(client_runner PUBLIC
     mooncake_store
     transfer_engine
     cachelib_memory_allocator
-    glog
+    spdlog::spdlog
     pthread
     ${ETCD_WRAPPER_LIB}
 )
@@ -49,7 +49,7 @@ target_link_libraries(chaos_test PUBLIC
     mooncake_store
     transfer_engine
     cachelib_memory_allocator
-    glog
+    spdlog::spdlog
     gtest
     pthread
     ${ETCD_WRAPPER_LIB}
@@ -60,7 +60,7 @@ target_link_libraries(chaos_rand_test PUBLIC
     mooncake_store
     transfer_engine
     cachelib_memory_allocator
-    glog
+    spdlog::spdlog
     gtest
     pthread
     ${ETCD_WRAPPER_LIB}

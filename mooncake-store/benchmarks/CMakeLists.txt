@@ -14,6 +14,6 @@ target_link_libraries(storage_backend_bench PRIVATE
     mooncake_store
     cachelib_memory_allocator
     gflags::gflags
-    glog::glog
+    spdlog::spdlog
     pthread
 )

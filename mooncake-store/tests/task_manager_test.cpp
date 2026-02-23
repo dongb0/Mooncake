@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include "task_manager.h"
 #include <thread>
 
@@ -16,11 +16,10 @@ namespace mooncake {
 class ClientTaskManagerTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("TaskManagerTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("TaskManagerTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 TEST_F(ClientTaskManagerTest, SubmitAndPopTask) {

@@ -1,6 +1,6 @@
 #include "master_service.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <memory>
@@ -20,11 +20,10 @@ std::unique_ptr<MasterService> CreateMasterServiceWithSSDFeat(
 class MasterServiceSSDTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("MasterServiceTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("MasterServiceTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 TEST_F(MasterServiceSSDTest, PutEndBothReplica) {

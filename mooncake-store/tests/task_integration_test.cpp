@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <memory>
@@ -29,8 +29,7 @@ namespace testing {
 class TaskExecutorIntegrationTest : public ::testing::Test {
    protected:
     static void SetUpTestSuite() {
-        google::InitGoogleLogging("TaskExecutorIntegrationTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("TaskExecutorIntegrationTest");
 
         // Override flags from environment variables if present
         if (getenv("PROTOCOL")) FLAGS_protocol = getenv("PROTOCOL");
@@ -62,7 +61,7 @@ class TaskExecutorIntegrationTest : public ::testing::Test {
     static void TearDownTestSuite() {
         CleanupClients();
         master_.Stop();
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 
     void SetUp() override {

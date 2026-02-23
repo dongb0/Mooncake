@@ -5,7 +5,7 @@
 #include <memory>
 #include <optional>
 #include <vector>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "mutex.h"
 

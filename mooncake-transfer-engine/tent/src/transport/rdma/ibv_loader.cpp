@@ -15,7 +15,7 @@
 #include "tent/transport/rdma/ibv_loader.h"
 
 #include <dlfcn.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 namespace tent {

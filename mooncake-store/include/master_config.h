@@ -3,7 +3,7 @@
 #include <optional>
 #include <stdexcept>
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "config_helper.h"
 #include "types.h"

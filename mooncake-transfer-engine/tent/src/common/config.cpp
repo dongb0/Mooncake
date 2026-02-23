@@ -14,7 +14,7 @@
 
 #include "tent/common/config.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <sstream>
 

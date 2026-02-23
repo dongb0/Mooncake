@@ -1,4 +1,4 @@
-#include <glog/logging.h>
+#include "logging.h"
 
 #include "file_interface.h"
 #include <fcntl.h>

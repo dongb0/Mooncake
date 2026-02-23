@@ -16,7 +16,7 @@
 
 #include <bits/stdint-uintn.h>
 #include "cuda_alike.h"
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <algorithm>
 #include <cassert>

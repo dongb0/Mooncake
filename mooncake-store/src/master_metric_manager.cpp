@@ -1,6 +1,6 @@
 #include "master_metric_manager.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <iomanip>  // For std::fixed, std::setprecision
 #include <sstream>  // For string building during serialization
 #include <vector>   // Required by histogram serialization

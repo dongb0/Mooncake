@@ -15,7 +15,7 @@
 #include "transport/tcp_transport/tcp_transport.h"
 
 #include <bits/stdint-uintn.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <asio/ip/v6_only.hpp>
 
 #include <algorithm>

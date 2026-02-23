@@ -14,7 +14,7 @@
 
 #include "transport/hip_transport/event_pool.h"
 
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 

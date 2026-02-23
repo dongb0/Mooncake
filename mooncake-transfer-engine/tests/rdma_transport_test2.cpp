@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <sys/time.h>
 
@@ -114,8 +114,7 @@ class RDMATransportTest : public ::testing::Test {
     void SetUp() override {
         static int offset = 0;
         LOG(INFO) << "HERE \n";
-        google::InitGoogleLogging("RDMATransportTest");
-        FLAGS_logtostderr = 1;
+        mooncake::logging::InitMooncakeLogging("RDMATransportTest");
         // disable topology auto discovery for testing.
         engine = std::make_unique<TransferEngine>(false);
         hostname_port = parseHostNameWithPort(FLAGS_local_server_name);
@@ -139,7 +138,7 @@ class RDMATransportTest : public ::testing::Test {
     }
 
     void TearDown() override {
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
         engine->unregisterLocalMemory(addr);
         freeMemoryPool(addr, ram_buffer_size);
     }

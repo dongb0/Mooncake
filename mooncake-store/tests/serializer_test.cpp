@@ -1,4 +1,4 @@
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include "serializer.h"
@@ -91,11 +91,10 @@ class ExampleClassWithException {
 class SerializerTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("SerializerTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("SerializerTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 TEST_F(SerializerTest, ExampleClassSerialization) {

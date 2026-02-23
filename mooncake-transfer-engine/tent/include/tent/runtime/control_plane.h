@@ -15,7 +15,7 @@
 #ifndef TRANSFER_METADATA_V1_H
 #define TRANSFER_METADATA_V1_H
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <netdb.h>
 
 #include <atomic>

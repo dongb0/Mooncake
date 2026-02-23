@@ -1,7 +1,7 @@
 // client_buffer_test.cpp
 #include "client_buffer.hpp"
 
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <atomic>
@@ -17,13 +17,12 @@ class ClientBufferTest : public ::testing::Test {
    protected:
     void SetUp() override {
         // Initialize glog for logging
-        google::InitGoogleLogging("ClientBufferTest");
-        FLAGS_logtostderr = 1;  // Output logs to stderr
+        mooncake::logging::InitMooncakeLogging("ClientBufferTest");
     }
 
     void TearDown() override {
         // Cleanup glog
-        google::ShutdownGoogleLogging();
+        mooncake::logging::ShutdownMooncakeLogging();
     }
 
     // Helper function to verify buffer handle properties

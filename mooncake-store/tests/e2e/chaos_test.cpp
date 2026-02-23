@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 #include <unistd.h>
 
@@ -28,9 +28,8 @@ class ChaosTest : public ::testing::Test {
    protected:
     static void SetUpTestSuite() {
         // Initialize glog
-        google::InitGoogleLogging("ClientIntegrationTest");
+        mooncake::logging::InitMooncakeLogging("ClientIntegrationTest");
 
-        FLAGS_logtostderr = 1;
 
         LOG(INFO) << "Protocol: " << FLAGS_protocol
                   << ", Device name: " << FLAGS_device_name
@@ -42,7 +41,7 @@ class ChaosTest : public ::testing::Test {
             << "Failed to connect to etcd";
     }
 
-    static void TearDownTestSuite() { google::ShutdownGoogleLogging(); }
+    static void TearDownTestSuite() { mooncake::logging::ShutdownMooncakeLogging(); }
 
     void SetUp() override {
         // Start masters

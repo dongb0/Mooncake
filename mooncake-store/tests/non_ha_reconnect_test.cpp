@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <chrono>
 #include <cstdlib>

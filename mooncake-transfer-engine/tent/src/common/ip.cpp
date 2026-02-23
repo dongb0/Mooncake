@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "tent/common/utils/ip.h"
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 namespace tent {

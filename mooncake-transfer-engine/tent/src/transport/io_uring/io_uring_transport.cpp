@@ -15,7 +15,7 @@
 #include "tent/transport/io_uring/io_uring_transport.h"
 
 #include <cstdint>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <algorithm>
 #include <cassert>

@@ -91,7 +91,7 @@
 #endif
 
 #include "gflags/gflags.h"
-#include "glog/logging.h"
+#include "logging.h"
 #include "storage_backend.h"
 
 namespace fs = std::filesystem;
@@ -2366,8 +2366,7 @@ void RunAllBenchmarks(const std::string& storage_path, size_t capacity) {
 // ============================================================================
 
 int main(int argc, char** argv) {
-    google::InitGoogleLogging("StorageBackendBench");
-    FLAGS_logtostderr = true;
+    mooncake::logging::InitMooncakeLogging("StorageBackendBench");
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     std::string storage_path = FLAGS_storage_path;
@@ -2453,7 +2452,7 @@ int main(int argc, char** argv) {
         CleanupStoragePath(storage_path);
     }
 
-    google::ShutdownGoogleLogging();
+    mooncake::logging::ShutdownMooncakeLogging();
 
     // Return non-zero if corruption detected
     return total_failures > 0 ? 1 : 0;

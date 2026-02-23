@@ -15,7 +15,7 @@
 #include "tent/transport/mnnvl/mnnvl_transport.h"
 
 #include <bits/stdint-uintn.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <algorithm>
 #include <cassert>

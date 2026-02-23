@@ -1,5 +1,5 @@
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "logging.h"
 
 #include <iostream>
 #include <sstream>
@@ -215,8 +215,7 @@ int main(int argc, char** argv) {
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     // Initialize Google logging
-    google::InitGoogleLogging(argv[0]);
-    FLAGS_logtostderr = 1;
+    mooncake::logging::InitMooncakeLogging(argv[0]);
 
     mooncake::testing::ClientCtl ctl;
     ctl.Run();

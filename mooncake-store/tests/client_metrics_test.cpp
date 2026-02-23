@@ -1,4 +1,4 @@
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <cstdlib>
@@ -11,11 +11,10 @@ namespace mooncake::test {
 class ClientMetricsTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("ClientMetricsTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("ClientMetricsTest");
     }
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 TEST_F(ClientMetricsTest, TransferMetricsSummaryTest) {

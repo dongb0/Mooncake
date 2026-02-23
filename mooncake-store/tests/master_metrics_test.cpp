@@ -1,4 +1,4 @@
-#include <glog/logging.h>
+#include "logging.h"
 #include <gtest/gtest.h>
 
 #include <thread>
@@ -14,13 +14,12 @@ namespace mooncake::test {
 class MasterMetricsTest : public ::testing::Test {
    protected:
     void SetUp() override {
-        google::InitGoogleLogging("MasterMetricsTest");
-        FLAGS_logtostderr = true;
+        mooncake::logging::InitMooncakeLogging("MasterMetricsTest");
     }
 
     std::vector<Replica::Descriptor> replica_list;
 
-    void TearDown() override { google::ShutdownGoogleLogging(); }
+    void TearDown() override { mooncake::logging::ShutdownMooncakeLogging(); }
 };
 
 TEST_F(MasterMetricsTest, InitialStatusTest) {

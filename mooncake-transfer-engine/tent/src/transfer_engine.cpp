@@ -15,7 +15,7 @@
 #include "tent/transfer_engine.h"
 #include "tent/common/config.h"
 #include "tent/runtime/transfer_engine_impl.h"
-#include <glog/logging.h>
+#include "logging.h"
 
 namespace mooncake {
 namespace tent {
