@@ -1,30 +1,30 @@
+include(FetchContent)
+
+# 1. 尝试在系统中查找已安装的 spdlog
 find_package(spdlog QUIET CONFIG)
 
-if(TARGET spdlog::spdlog)
-    set(SPDLOG_FOUND TRUE)
+if(NOT TARGET spdlog::spdlog)
+    message(STATUS "spdlog not found locally, fetching from GitHub...")
+    
+    # 2. 如果本地没有，自动从 GitHub 下载
+    FetchContent_Declare(
+      spdlog
+      GIT_REPOSITORY https://github.com/gabime/spdlog.git
+      GIT_TAG        v1.12.0  # 建议锁定一个稳定版本
+      GIT_SHALLOW    TRUE      # 只下载最新提交，加快速度
+    )
+
+    FetchContent_MakeAvailable(spdlog)
+    
+    # FetchContent 会自动创建 spdlog::spdlog 目标
     set(SPDLOG_TARGET spdlog::spdlog)
+    set(SPDLOG_FOUND TRUE)
 else()
-    find_package(PkgConfig QUIET)
-    if(PKG_CONFIG_FOUND)
-        pkg_check_modules(PC_SPDLOG QUIET spdlog)
-    endif()
-
-    find_path(SPDLOG_INCLUDE_DIR spdlog/spdlog.h
-        HINTS ${PC_SPDLOG_INCLUDEDIR} ${PC_SPDLOG_INCLUDE_DIRS}
-        PATHS /usr/include /usr/local/include)
-
-    find_library(SPDLOG_LIBRARY spdlog
-        HINTS ${PC_SPDLOG_LIBDIR} ${PC_SPDLOG_LIBRARY_DIRS}
-        PATHS /usr/lib /usr/lib64 /usr/local/lib /usr/local/lib64)
-
-    if(SPDLOG_INCLUDE_DIR AND SPDLOG_LIBRARY)
-        set(SPDLOG_FOUND TRUE)
-        add_library(spdlog::spdlog INTERFACE IMPORTED)
-        target_include_directories(spdlog::spdlog INTERFACE ${SPDLOG_INCLUDE_DIR})
-        target_link_libraries(spdlog::spdlog INTERFACE ${SPDLOG_LIBRARY})
-        set(SPDLOG_TARGET spdlog::spdlog)
-    endif()
+    message(STATUS "Found spdlog locally.")
+    set(SPDLOG_TARGET spdlog::spdlog)
+    set(SPDLOG_FOUND TRUE)
 endif()
 
+# 保持你原有的 Handle 逻辑（可选）
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Spdlog DEFAULT_MSG SPDLOG_TARGET)
