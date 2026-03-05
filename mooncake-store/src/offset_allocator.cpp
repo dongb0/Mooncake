@@ -168,11 +168,15 @@ void __Allocator::reset() {
     m_nodes.clear();
     m_freeNodes.clear();
 
+    LOG(INFO) << "m_max_capacity: " << m_max_capacity << std::endl;
     m_nodes.reserve(m_max_capacity);
     m_freeNodes.reserve(m_max_capacity);
+    LOG(INFO) << "reserve m_max_capacity succ, m_nodes.cap: " << m_nodes.capacity() << ", m_freeNodes.cap: " << m_freeNodes.capacity() << std::endl;
 
     m_nodes.resize(m_current_capacity);
     m_freeNodes.resize(m_current_capacity);
+
+    LOG(INFO) << "resize m_current_capacity succ, m_nodes.size: " << m_nodes.size() << ", m_freeNodes.size: " << m_freeNodes.size() << std::endl;
 
     // Freelist is a stack. Nodes in inverse order so that [0] pops first.
     for (uint32 i = 0; i < m_current_capacity; i++) {
@@ -187,6 +191,7 @@ void __Allocator::reset() {
 OffsetAllocation __Allocator::allocate(uint32 size) {
     // Out of allocations?
     if (m_freeOffset == m_max_capacity) {
+        LOG(INFO) << "NO SPACE! current cap:" << m_current_capacity << std::endl;
         return OffsetAllocation(OffsetAllocation::NO_SPACE,
                                 OffsetAllocation::NO_SPACE);
     }
@@ -194,6 +199,11 @@ OffsetAllocation __Allocator::allocate(uint32 size) {
         m_freeNodes.push_back(m_current_capacity);
         m_nodes.emplace_back();
         m_current_capacity++;
+
+        static int64_t alloc_counter = 0;
+        LOG(INFO) << "alloc_counter: " << alloc_counter++ << ", current_capacity: " << m_current_capacity
+            << ", nodes.capacity: " << m_nodes.capacity() << ", freeNodes.capacity: " << m_freeNodes.capacity()
+            << ", nodes.size: " << m_nodes.size() << ", freeNodes.size: " << m_freeNodes.size();
     }
 
     // Round up to bin index to ensure that alloc >= bin

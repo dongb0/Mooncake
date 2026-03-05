@@ -58,7 +58,8 @@ constexpr size_t kMaxExpectedAllocs = 600000;
 constexpr double kLargeClusterThresholdGB = 500.0;
 constexpr int kPreFillSampleInterval = 100;
 constexpr int kMinMeasurementAllocs = 100;
-constexpr int kMaxMeasurementAllocs = 200000;
+// constexpr int kMaxMeasurementAllocs = 200000;
+constexpr int kMaxMeasurementAllocs = 1000000;
 constexpr int kMinSamplesForConvergence = 10;
 
 enum class WorkloadType {
@@ -149,13 +150,13 @@ static double computeClusterCapacityGB(int num_segments, size_t base_capacity,
     return total / GiB;
 }
 
-static constexpr int64_t BENCHMARK_MEMORY_LIMIT = 16ULL * 1024 * 1024 * 1024;
+static constexpr int64_t BENCHMARK_MEMORY_LIMIT = 48ULL * 1024 * 1024 * 1024;
 static void setupResourceLimits() {
     struct rlimit rl;
     // Cap virtual address space (RLIMIT_AS) to 2TB (virtual space is cheap on
     // 64-bit)
-    rl.rlim_cur = 2048ULL * 1024 * 1024 * 1024;
-    rl.rlim_max = 2048ULL * 1024 * 1024 * 1024;
+    rl.rlim_cur = 4096ULL * 1024 * 1024 * 1024 * 2;
+    rl.rlim_max = 4096ULL * 1024 * 1024 * 1024 * 2;
     setrlimit(RLIMIT_AS, &rl);
 
     // Cap Data segment (RLIMIT_DATA) to 16GB to prevent OOM freezing the OS
@@ -167,7 +168,7 @@ static void setupResourceLimits() {
 // For large cluster benchmarks (>500GB), cap allocator metadata at 64K nodes
 // to keep total memory within 16GB RAM.
 // 64K nodes * 32 bytes/node * 1024 segments = 2GB, well within 16GB.
-static constexpr uint32_t kBenchmarkMaxCapacity = 64 * 1024;
+static constexpr uint32_t kBenchmarkMaxCapacity = 0;
 
 /**
  * @brief Create an AllocatorManager populated with N OffsetBufferAllocators.
@@ -823,7 +824,8 @@ static void runFillupBenchmarks() {
 
 static void runScaleOutMatrix() {
     std::vector<bool> skewed_options = {false, true};
-    std::vector<int> segment_counts = {1, 10, 100, 512, 1024};
+    // std::vector<int> segment_counts = {1, 10, 100, 512, 1024};
+    std::vector<int> segment_counts = {512};
     std::vector<size_t> alloc_sizes = {512 * KiB, 8 * MiB, 32 * MiB};
     std::vector<int> replica_nums = {1, 2, 3};
     std::vector<AllocationStrategyType> strategies = {
@@ -880,6 +882,10 @@ static void runScaleOutMatrix() {
             first = false;
         }
 
+        static int64_t count = 1;
+        LOG(INFO) << "iteration " << count << std::endl;
+        count++;
+
         auto result = runScaleOutBenchmark(cfg);
         printScaleOutResult(result);
     }
@@ -889,6 +895,7 @@ int main(int argc, char* argv[]) {
     gflags::SetUsageMessage(
         "AllocationStrategy performance benchmark.\n"
         "Usage: allocation_strategy_bench [flags]");
+    google::InitGoogleLogging(argv[0]);
     gflags::ParseCommandLineFlags(&argc, &argv, true);
     setupResourceLimits();
 
@@ -900,6 +907,6 @@ int main(int argc, char* argv[]) {
     } else if (FLAGS_workload == "scaleout") {
         runScaleOutMatrix();
     }
-
+    // sleep(360);
     return 0;
 }
