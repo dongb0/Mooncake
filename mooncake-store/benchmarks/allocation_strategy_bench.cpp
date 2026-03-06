@@ -27,6 +27,9 @@ DEFINE_int32(convergence_sample_interval, 100,
 DEFINE_bool(
     run_all, false,
     "Also run the Scale-Out matrix in addition to the default Fillup matrix");
+DEFINE_bool(
+    alloc_only, true, "Only construct allocator");
+DEFINE_int32(segment_num, 1024, "Tmp Debuging flag, controls segments num");
 
 // Scale-Out workload flags
 DEFINE_string(workload, "fillup", "Workload type: fillup (default), scaleout");
@@ -150,19 +153,26 @@ static double computeClusterCapacityGB(int num_segments, size_t base_capacity,
     return total / GiB;
 }
 
-static constexpr int64_t BENCHMARK_MEMORY_LIMIT = 48ULL * 1024 * 1024 * 1024;
+static constexpr int64_t BENCHMARK_MEMORY_LIMIT = 16ULL * 1024 * 1024 * 1024; // 16GB
 static void setupResourceLimits() {
     struct rlimit rl;
-    // Cap virtual address space (RLIMIT_AS) to 2TB (virtual space is cheap on
+    // Cap virtual address space (RLIMIT_AS) to 8TB (virtual space is cheap on
     // 64-bit)
     rl.rlim_cur = 4096ULL * 1024 * 1024 * 1024 * 2;
     rl.rlim_max = 4096ULL * 1024 * 1024 * 1024 * 2;
     setrlimit(RLIMIT_AS, &rl);
 
-    // Cap Data segment (RLIMIT_DATA) to 16GB to prevent OOM freezing the OS
-    rl.rlim_cur = BENCHMARK_MEMORY_LIMIT;
-    rl.rlim_max = BENCHMARK_MEMORY_LIMIT;
-    setrlimit(RLIMIT_DATA, &rl);
+    // If we only allocate the OffsetAllocator without buffers, remove RLIMIT_DATA
+    if (FLAGS_alloc_only) {
+        rl.rlim_cur = RLIM_INFINITY; // TODO: 检查一下在其他小内存机器上是否可以运行。
+        rl.rlim_max = RLIM_INFINITY;
+        setrlimit(RLIMIT_DATA, &rl);
+    } else {
+        // Cap Data segment (RLIMIT_DATA) to 16GB to prevent OOM freezing the OS
+        rl.rlim_cur = BENCHMARK_MEMORY_LIMIT;
+        rl.rlim_max = BENCHMARK_MEMORY_LIMIT;
+        setrlimit(RLIMIT_DATA, &rl);
+    }
 }
 
 // For large cluster benchmarks (>500GB), cap allocator metadata at 64K nodes
@@ -372,7 +382,7 @@ static FillUpResult runFillUpBenchmark(const BenchConfig& cfg) {
     // Keep allocations alive until we compute final metrics.
     std::vector<std::vector<Replica>> active_allocations;
     active_allocations.reserve(
-        std::min(cfg.num_allocations, 1 << 20 /* 1M entries max */));
+        std::min(cfg.num_allocations, 1 << 20 /* 1M entries max */)); // TODO: ? 为什么预分配这么多？大概会搞到65535=64k
 
     const int kMaxConsecFailures = 10;
     int consec_failures = 0;
@@ -825,7 +835,7 @@ static void runFillupBenchmarks() {
 static void runScaleOutMatrix() {
     std::vector<bool> skewed_options = {false, true};
     // std::vector<int> segment_counts = {1, 10, 100, 512, 1024};
-    std::vector<int> segment_counts = {512};
+    std::vector<int> segment_counts = {512, 1024};
     std::vector<size_t> alloc_sizes = {512 * KiB, 8 * MiB, 32 * MiB};
     std::vector<int> replica_nums = {1, 2, 3};
     std::vector<AllocationStrategyType> strategies = {
@@ -898,6 +908,13 @@ int main(int argc, char* argv[]) {
     google::InitGoogleLogging(argv[0]);
     gflags::ParseCommandLineFlags(&argc, &argv, true);
     setupResourceLimits();
+
+    if (FLAGS_alloc_only) {
+        std::cout << "segment_num:" << FLAGS_segment_num
+                  << ", segment_capcacity:" << FLAGS_segment_capacity << std::endl;
+        createCluster(FLAGS_segment_num, FLAGS_segment_capacity * MiB, false/*skewed*/);
+        return 0;
+    }
 
     if (FLAGS_run_all) {
         runFillupBenchmarks();

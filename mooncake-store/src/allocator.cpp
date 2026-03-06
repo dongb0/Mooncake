@@ -203,6 +203,12 @@ OffsetBufferAllocator::OffsetBufferAllocator(std::string segment_name,
 
         VLOG(1) << "offset_buffer_allocator_initialized segment_name="
                 << segment_name;
+    } catch (const std::bad_alloc& e) {
+        LOG(FATAL) << "offset_allocator_bad_alloc: Failed to allocate memory for OffsetAllocator (segment=" 
+                   << segment_name << "). Size=" << size 
+                   << ". This is likely due to the virtual memory request exceeding the OS overcommit limit. "
+                   << "The std::vector::reserve request massive virtual space which was rejected by the kernel. "
+                   << "Try running 'sudo sysctl vm.overcommit_memory=1' or reduce max_capacity.";
     } catch (const std::exception& e) {
         LOG(ERROR) << "offset_allocator_init_exception error=" << e.what();
         throw;
