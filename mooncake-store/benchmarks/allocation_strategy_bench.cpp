@@ -153,26 +153,16 @@ static double computeClusterCapacityGB(int num_segments, size_t base_capacity,
     return total / GiB;
 }
 
-static constexpr int64_t BENCHMARK_MEMORY_LIMIT = 16ULL * 1024 * 1024 * 1024; // 16GB
 static void setupResourceLimits() {
     struct rlimit rl;
-    // Cap virtual address space (RLIMIT_AS) to 8TB (virtual space is cheap on
-    // 64-bit)
-    rl.rlim_cur = 4096ULL * 1024 * 1024 * 1024 * 2;
-    rl.rlim_max = 4096ULL * 1024 * 1024 * 1024 * 2;
+    // Cap virtual address space (RLIMIT_AS) to 4TB
+    rl.rlim_cur = 4096ULL * 1024 * 1024 * 1024;
+    rl.rlim_max = 4096ULL * 1024 * 1024 * 1024;
     setrlimit(RLIMIT_AS, &rl);
 
-    // If we only allocate the OffsetAllocator without buffers, remove RLIMIT_DATA
-    if (FLAGS_alloc_only) {
-        rl.rlim_cur = RLIM_INFINITY; // TODO: 检查一下在其他小内存机器上是否可以运行。
-        rl.rlim_max = RLIM_INFINITY;
-        setrlimit(RLIMIT_DATA, &rl);
-    } else {
-        // Cap Data segment (RLIMIT_DATA) to 16GB to prevent OOM freezing the OS
-        rl.rlim_cur = BENCHMARK_MEMORY_LIMIT;
-        rl.rlim_max = BENCHMARK_MEMORY_LIMIT;
-        setrlimit(RLIMIT_DATA, &rl);
-    }
+    rl.rlim_cur = RLIM_INFINITY;
+    rl.rlim_max = RLIM_INFINITY;
+    setrlimit(RLIMIT_DATA, &rl);
 }
 
 // For large cluster benchmarks (>500GB), cap allocator metadata at 64K nodes
@@ -834,8 +824,7 @@ static void runFillupBenchmarks() {
 
 static void runScaleOutMatrix() {
     std::vector<bool> skewed_options = {false, true};
-    // std::vector<int> segment_counts = {1, 10, 100, 512, 1024};
-    std::vector<int> segment_counts = {512, 1024};
+    std::vector<int> segment_counts = {1, 10, 100, 512, 1024};
     std::vector<size_t> alloc_sizes = {512 * KiB, 8 * MiB, 32 * MiB};
     std::vector<int> replica_nums = {1, 2, 3};
     std::vector<AllocationStrategyType> strategies = {
